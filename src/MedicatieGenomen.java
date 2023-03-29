@@ -1,0 +1,7 @@
+
+class MedicatieGenomen extends Medicatie {
+
+    }
+
+
+
