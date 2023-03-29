@@ -1,9 +1,8 @@
 import java.util.Scanner;
 
-class User {
+class Gebruiker {
 
     public void UserEntry() {
-
 
         Scanner scanner = new Scanner(System.in);
 

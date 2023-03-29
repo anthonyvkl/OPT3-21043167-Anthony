@@ -1,4 +1,0 @@
-
-class MedicatieNietIngenomen extends Notificatie {
-}
-
