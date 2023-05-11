@@ -1,17 +1,9 @@
-class Medicijn {
-    private String naam;
-    private int dosering;
+import java.util.Date;
 
-    public Medicijn(String naam, int dosering) {
-        this.naam = naam;
-        this.dosering = dosering;
-    }
-
-    public String getNaam(){
-        return naam;
-    }
-
-    public int getDosering() {
-        return dosering;
-    }
+public interface Medicijn {
+    String neemMedicijn(int dosering);
+    String getNaam();
+    int getHoeveelheid();
+    int getDosering();
+    void setTijd(Date tijd);
 }

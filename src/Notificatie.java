@@ -4,27 +4,33 @@ import java.util.*;
 
 class Notificatie {
 
-    public void notificatieMethode(ArrayList<String> medicaties) {
+    public void notificatieMethode(ArrayList<Medicijn> medicaties) {
+        if (medicaties.isEmpty()) {
+            System.out.println("Geen medicijnen ingesteld");
+            return;
+        }
         Scanner scanner = new Scanner(System.in);
-        ArrayList<String>kopieMedicaties = new ArrayList<>(medicaties);
+        ArrayList<Medicijn> notificatieMedicaties = new ArrayList<>();
 
-        for (int i = 0; i < kopieMedicaties.size(); i+= 2) {
-            String medicatie = kopieMedicaties.get(i);
-            System.out.println("Vul hierin de tijdstip waarop je de notificatie voor " + medicatie + " wilt ontvangen. (Bijvoorbeeld 18:30).");
+        for (int i = 0; i < medicaties.size(); i++) {
+            Medicijn medicatie = medicaties.get(i);
+            System.out.println("Vul hierin de tijdstip waarop je de notificatie voor " + medicatie.getNaam() + " wilt ontvangen. (Bijvoorbeeld 18:30).");
             String tijd = scanner.nextLine();
 
             if (!tijd.equals("volgende")) {
-                medicaties.add(medicatie + " " + tijd);
+                notificatieMedicaties.add(medicatie);
                 startTimer(medicatie, tijd);
             }
         }
 
         System.out.println("Hierbij een overzicht van de tijdstippen waarbij u uw medicaties in moet nemen:");
-        for (String medicatie : medicaties) {
-            System.out.println(medicatie);
+        for (Medicijn medicatie : notificatieMedicaties) {
+            System.out.println(medicatie.getNaam());
         }
     }
-    public void startTimer(String medicatie, String tijd){
+
+
+    public void startTimer(Medicijn medicatie, String tijd){
         Timer timer = new Timer();
         TimerTask task = new TimerTask() {
             @Override
@@ -32,7 +38,11 @@ class Notificatie {
                 LocalDateTime now = LocalDateTime.now();
                 LocalTime specifiedTime = LocalTime.parse(tijd);
                 if (now.toLocalTime().compareTo(specifiedTime) >= 0) {
-                    System.out.println("Het is momenteel " + tijd + ". Neem uw " + medicatie + " pillen.");
+                    String medicijn = medicatie.getNaam();
+                    int hoeveelheid = medicatie.getHoeveelheid();
+                    System.out.println("Het is momenteel " + tijd + ". " + medicatie.neemMedicijn(medicatie.getDosering()));
+//                    System.out.println("U heeft nog " + hoeveelheid + " " + medicijn + " over.");
+
                 }
             }
         };
@@ -46,9 +56,7 @@ class Notificatie {
 
         timer.schedule(task, specifiedTime);
 
-        System.out.println("Notificatie ingesteld voor " + tijd + " voor " + medicatie + ".");
+        System.out.println("Notificatie ingesteld voor " + tijd + " voor " + medicatie.getNaam() + ".");
 
     }
 }
-
-
